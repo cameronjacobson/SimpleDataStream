@@ -9,14 +9,13 @@ require_once(dirname(__DIR__).'/vendor/autoload.php');
 use SimpleDataStream\SimpleDataStream as SDS;
 
 $ds = new SDS();
-$ds->map(function($v){
+$ds->map(function(&$v){
 		if(is_array($v)){
 			$v[0] *= 2;
 		}
 		else{
 			$v *= 2;
 		}
-		return $v;
 	})
 	->filter(function($v){
 		if(is_array($v)){

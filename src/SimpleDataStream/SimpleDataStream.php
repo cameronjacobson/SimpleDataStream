@@ -18,12 +18,14 @@ class SimpleDataStream
 	}
 
 	public function filter(callable $fn){
-		$this->addCallback('filter',$fn);
+		$this->addCallback('filter', $fn);
 		return $this;
 	}
 
 	public function map(callable $fn){
-		$this->addCallback('map',$fn);
+		$tmp = new \ReflectionFunction($fn);
+		$params = $tmp->getParameters();
+		$this->addCallback('map', $fn, $params[0]->isPassedByReference());
 		return $this;
 	}
 
@@ -58,7 +60,12 @@ class SimpleDataStream
 			foreach($this->callbacks as $callback){
 				switch($callback[0]){
 					case 'map':
-						$callback[1]($v);
+						if($callback[2]){
+							$callback[1]($v);
+						}
+						else{
+							$v = $callback[1]($v);
+						}
 						break;
 					case 'filter':
 						if(!$callback[1]($v)){
@@ -71,8 +78,8 @@ class SimpleDataStream
 		};
 	}
 
-	private function addCallback($type,callable $fn){
-		$this->callbacks[] = array($type,$fn);
+	private function addCallback($type, callable $fn, $returnsReference = false){
+		$this->callbacks[] = array($type, $fn, $returnsReference);
 	}
 
 }
