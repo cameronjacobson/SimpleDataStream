@@ -1,0 +1,8 @@
+{
+	"name":"simpledatastream/simpledatastream",
+	"autoload": {
+		"psr-0": {
+			"SimpleDataStream": "src/"
+		}
+	}
+}
