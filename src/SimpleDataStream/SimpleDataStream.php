@@ -30,27 +30,31 @@ class SimpleDataStream
 	}
 
 	public function __invoke($num = null){
-		if(count($this->queue) === 0){
-			return array();
-		}
 		$buffer = array();
-		while(null !== $v = $this->get()){
-			$buffer[] = $v;
-			if($num && (count($buffer) == $num)){
-				return $buffer;
+		while(null !== $v = $this->get($num, count($buffer))){
+			if(empty($num)){
+				return $v;
+			}
+			else {
+				$buffer[] = $v;
 			}
 		}
 		return $buffer;
 	}
 
-	public function get(){
+	public function all(){
+		return $this(count($this->queue));
+	}
+
+	private function get($num, $count){
+		if(isset($num) && ($num == $count)){
+			return null;
+		}
 		if(count($this->queue) === 0){
 			return null;
 		}
 		return $this->queue->dequeue();
 	}
-
-
 
 
 	private function getGenerator(){

@@ -32,7 +32,11 @@ for($x=0;$x<10;$x++){
 }
 
 // more efficient way to iterate simple stream
-while(list($v) = $ds(1)){
+while($v = $ds()){
+	process($v);
+}
+
+function process($v){
 	if(is_array($v)){
 		print_r($v);
 	}
@@ -40,5 +44,3 @@ while(list($v) = $ds(1)){
 		echo $v.PHP_EOL;
 	}
 }
-
-

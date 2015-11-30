@@ -32,8 +32,18 @@ for($x=0;$x<10;$x++){
 }
 
 print_r($ds(2));
-echo 'VALUE: '.$ds->get().PHP_EOL;
-foreach($ds() as $v){
+echo 'VALUE: '.$ds().PHP_EOL;
+
+foreach($ds(1) as $v){
+	process($v);
+	break;
+}
+
+foreach($ds->all() as $v){
+	process($v);
+}
+
+function process($v){
 	if(is_array($v)){
 		print_r($v);
 	}
@@ -41,5 +51,4 @@ foreach($ds() as $v){
 		echo $v.PHP_EOL;
 	}
 }
-
 
