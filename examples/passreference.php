@@ -36,7 +36,6 @@ echo 'VALUE: '.$ds().PHP_EOL;
 
 foreach($ds(1) as $v){
 	process($v);
-	break;
 }
 
 foreach($ds->all() as $v){
